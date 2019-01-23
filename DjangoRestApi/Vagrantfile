@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/xenial64"
   config.vm.usable_port_range = 8000..8999
+  #host port collision resolved to 8000 in local 
   config.vm.network "forwarded_port", host_ip: "127.0.0.1", guest: 8080, host: 8080, auto_correct: true
   config.vm.provision "shell", inline: <<-SHELL
     # Update and upgrade the server packages.
