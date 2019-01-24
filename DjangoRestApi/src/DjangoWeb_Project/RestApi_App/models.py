@@ -12,10 +12,9 @@ class UserProfileManger(BaseUserManager):
         if not email:
             raise ValueError('User must have an email address')
 
-        email.sel.normalize_email(email)
         user = self.model(email=email, name= get_full_name)
         user.set_password(password)
-        user.save(using=self._db)
+        user.save(using = self._db)
 
         return user
 
@@ -25,7 +24,7 @@ class UserProfileManger(BaseUserManager):
         user = self.create_user(email,name,password)
         user.is_Superuser = True
         user.is_staff = True
-        user.save(using=self._db)
+        user.save(using = self._db)
 
         return  user
 
@@ -42,6 +41,9 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
+    def __str__(self):
+        return self.email
+
     def get_full_name(self):
         """Used to get a userd full name"""
         return self.name
@@ -49,6 +51,3 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     def get_short_name(self):
         """Used to get a userd short/first/nick name"""
         return self.name
-    def _str_(self):
-        """Used by django to convert objects to string"""
-        return self.email
