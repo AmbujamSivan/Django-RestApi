@@ -52,6 +52,7 @@ class HelloViewSets(viewsets.ViewSet):
     # def __init__(self, arg):
     #     super(, self).__init__()
     #     self.arg = arg
+    serializer_class = serializer.HelloSerializer
 
     def list(self, request):
         """Returns a Hello message"""
@@ -62,3 +63,31 @@ class HelloViewSets(viewsets.ViewSet):
             'Provides more functionality with less code'
         ]
         return Response({'message':'Hello', 'aViewset':aViewset})
+
+    def create(self, request):
+        """create a new hello message"""
+        serialized = serializer.HelloSerializer(data = request.data)
+
+        if serialized.is_valid():
+            name = serialized.data.get('name')
+            message = 'Hello {0}, from ViewSet'.format(name)
+            return Response({'message':message})
+        else:
+            return Response(serialized.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+    def retrieve(self, request, pk = None):
+        """gets the object by its id from DB"""
+        return Response({'http_method':'GET'})
+
+    def update(self, request, pk = None):
+        """updates the object by its id in DB"""
+        return Response({'http_method':'PUT'})
+
+    def partial_update(self, request, pk = None):
+        """partial updation of object by its ID in DB"""
+        return Response({'http_method':'PATCH'})
+
+    def destroy(self, request, pk = None):
+        """deletes the object by its ID in DB"""
+        return Response({'http_method':'DELETE'})
