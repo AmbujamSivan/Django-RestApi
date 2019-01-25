@@ -32,7 +32,7 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     """ Represents a user profile in or system """
     email = models.EmailField(max_length=225, unique=True)
     name = models.CharField(max_length=225)
-    is_Staffctive = models.BooleanField(default=True)
+    is_staffactive = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
 
     #Object Manager to have a customized manager than th eprovided default
@@ -51,3 +51,13 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
     def get_short_name(self):
         """Used to get a userd short/first/nick name"""
         return self.name
+
+class ProfileFeedItem(models.Model):
+    """Profile Status update"""
+    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    status_text = models.CharField(max_length = 225)
+    created_on = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self):
+        #returns the model as string
+        return self.status_text
