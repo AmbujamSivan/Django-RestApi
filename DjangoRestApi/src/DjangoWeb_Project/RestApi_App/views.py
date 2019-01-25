@@ -3,8 +3,10 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 
 from . import serializer
+from . import permissions
 from . import models
 
 # Create your views here.
@@ -97,3 +99,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     """Handles creating and updating a user UserProfile"""
     serializer_class = serializer.UserProfileSerializer
     queryset = models.UserProfile.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.UpdateOwnProfile,)

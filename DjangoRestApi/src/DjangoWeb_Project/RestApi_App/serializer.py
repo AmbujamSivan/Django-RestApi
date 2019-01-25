@@ -5,7 +5,7 @@ class HelloSerializer(serializers.Serializer):
     """Serializes the name field from our APIView"""
     name= serializers.CharField(max_length=10)
 
-class UserProfileSerializer(serializers.Serializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     """A serializer for our User models"""
     class Meta:
         model=models.UserProfile
